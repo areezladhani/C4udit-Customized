@@ -15,20 +15,32 @@ Note that `c4udit` uses [c4-common-issues](https://github.com/byterocket/c4-comm
 First you need to have the Go toolchain installed. You can find instruction [here](https://go.dev/doc/install).
 
 Then install `c4udit` with:
+
 ```
 $ go install github.com/byterocket/c4udit@latest
 ```
 
 To just build the binary:
+
 ```
 $ git clone https://github.com/byterocket/c4udit
 $ cd c4udit/
 $ go build .
 ```
+
 Now you should be able to run `c4udit` with:
+
 ```
 $ ./c4udit
 ```
+
+## Configuration
+
+Before using the script, you need to update the `baseURL` and `baseDir` variables in the script file (analyzer.go). This allows the analyzer to generate correct links in the report.
+
+1. Set `baseURL` to the base link of your GitHub repository, followed by `/blob/main/`. For example, if your repository is at `https://github.com/PartyDAO/party-contracts-c4`, set `baseURL` to `https://github.com/PartyDAO/party-contracts-c4/blob/main/`.
+
+2. Set `baseDir` to the base directory of the repository on your local machine. For example, if the repository is located at `/path/to/party-contracts-c4`, set `baseDir` to `party-contracts-c4`.
 
 ## Usage
 
@@ -44,6 +56,7 @@ Flags:
 ## Example
 
 Running `c4udit` against the `examples` directory:
+
 ```
 $ ./c4udit examples/
 Files analyzed:
@@ -72,7 +85,6 @@ Issues found:
 
 Using the `-s` flag, `c4udit` will create a report in markdown format.
 For an example check out the report in the `examples` directory [here](./examples/c4udit-report.md).
-
 
 ## License
 

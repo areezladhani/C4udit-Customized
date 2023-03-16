@@ -73,7 +73,7 @@ func run(report *Report, path string) error {
 }
 // update to "RepoLink/blob/main/"
 // e.g. "https://github.com/PartyDAO/party-contracts-c4/blob/main/" for the repo at https://github.com/PartyDAO/party-contracts-c4
-const baseURL = "https://github.com/PartyDAO/party-contracts-c4/blob/main/"
+const baseURL = ""
 
 
 func analyzeFile(issues []Issue, file string) (map[string][]Finding, error) {
@@ -111,7 +111,7 @@ func analyzeFile(issues []Issue, file string) (map[string][]Finding, error) {
 			if matched {
 				// add base directory to ""
 				// e.g for https://github.com/PartyDAO/party-contracts-c4 it will be "party-contracts-c4"
-				baseDir := "party-contracts-c4"
+				baseDir := ""
 				//fmt.Println("Absolute File Path:", file)
 				relativeFilePath, err := filepath.Rel(baseDir, file)
 				if err != nil {
