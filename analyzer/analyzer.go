@@ -6,6 +6,7 @@ import (
 	"os"
 	"path/filepath"
 	"regexp"
+	"strconv"
 	"strings"
 )
 
@@ -70,6 +71,10 @@ func run(report *Report, path string) error {
 
 	return nil
 }
+// update to "RepoLink/blob/main/"
+// e.g. "https://github.com/PartyDAO/party-contracts-c4/blob/main/" for the repo at https://github.com/PartyDAO/party-contracts-c4
+const baseURL = "https://github.com/PartyDAO/party-contracts-c4/blob/main/"
+
 
 func analyzeFile(issues []Issue, file string) (map[string][]Finding, error) {
 	findings := make(map[string][]Finding)
@@ -82,19 +87,47 @@ func analyzeFile(issues []Issue, file string) (map[string][]Finding, error) {
 
 	scanner := bufio.NewScanner(readFile)
 	lineNumber := 0
+	inMultilineComment := false
 	for scanner.Scan() {
 		lineNumber++
 		line := scanner.Text()
 
+		// Check for multi-line comments
+		if strings.Contains(line, "/*") {
+			inMultilineComment = true
+		}
+		if strings.Contains(line, "*/") {
+			inMultilineComment = false
+			continue
+		}
+		
+		// Ignore lines that are part of a single-line or multi-line comment
+		if strings.HasPrefix(strings.TrimSpace(line), "//") || inMultilineComment {
+			continue
+		}
+
 		for _, issue := range issues {
 			matched, _ := regexp.MatchString(issue.Pattern, line)
 			if matched {
+				// add base directory to ""
+				// e.g for https://github.com/PartyDAO/party-contracts-c4 it will be "party-contracts-c4"
+				baseDir := "party-contracts-c4"
+				//fmt.Println("Absolute File Path:", file)
+				relativeFilePath, err := filepath.Rel(baseDir, file)
+				if err != nil {
+					return nil, err
+				}
+				//fmt.Println("relativeFilePath:", relativeFilePath)
+				CodeLocationURL := baseURL + relativeFilePath + "#L" + strconv.Itoa(lineNumber)
+				//fmt.Println("CodeLocationURL:", CodeLocationURL)
 				findings[issue.Identifier] = append(findings[issue.Identifier], Finding{
 					IssueIdentifier: issue.Identifier,
 					File:            file,
 					LineNumber:      lineNumber,
 					LineContent:     strings.TrimSpace(line),
+                    CodeLocationURL: CodeLocationURL,
 				})
+			
 			}
 		}
 	}
