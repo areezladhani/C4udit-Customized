@@ -10,10 +10,10 @@ func GasOpIssues() []Issue {
 	return []Issue{
 		// G001 - Don't Initialize Variables with Default Value
 		{
-			"G001 **Works Well (no false positives)**",
+			"G001",
 			GASOP,
 			"Don't Initialize Variables with Default Value",
-			"When initializing a variable with a default value, it can lead to unnecessary gas consumption",
+			"github link to explanation",
 			`\b(uint\d{0,3}|uint256|bool)\s+(\w+)\s*=\s*(0|false|address\(0\)|""|'')\s*(;.*)?$`,
 		},
 		// G002 - Cache Array Length Outside of Loop
@@ -36,7 +36,7 @@ func GasOpIssues() []Issue {
 		},
 		// G006 - Use immutable for OpenZeppelin AccessControl's Roles Declarations
 		{
-			"G006",
+			"G004",
 			GASOP,
 			"Use immutable for OpenZeppelin AccessControl's Roles Declarations",
 			`⚡️ Only valid for solidity versions <0.6.12 ⚡️
@@ -47,7 +47,7 @@ func GasOpIssues() []Issue {
 		},
 		// G007 - Long Revert Strings
 		{
-			"G007",
+			"G005",
 			GASOP,
 			"Long Revert Strings **Works Well (no false positives)**",
 			"For the output on a require, Each extra memory word of bytes past the original 32 incurs an MSTORE which costs 3 gas",
@@ -55,7 +55,7 @@ func GasOpIssues() []Issue {
 		},
 		// G008 - Use Shift Right/Left instead of Division/Multiplication if possible
 		{
-			"G008",
+			"G006",
 			GASOP,
 			"Use Shift Right/Left instead of Division/Multiplication if possible",
 			`<x> / 2is the same as <x> >> 1. While the compiler uses the SHRopcode to accomplish both, 
@@ -64,14 +64,14 @@ func GasOpIssues() []Issue {
 			`(/[2,4,8]|/ [2,4,8]|\*[2,4,8]|\* [2,4,8])`, // Matches division or multiplication by 2, 4, or 8
 		},
 		{
-			"G009",
+			"G007",
 			GASOP,
 			"++i costs less gas than i++, especially when its used in for-loops (--i/i-- too)",
 			"...",
 			`\+\+|--`,
 		},
 		{
-			"G010 **Works Well (no false positives)**",
+			"G008 **Works Well (no false positives)**",
 			GASOP,
 			"USE CUSTOM ERRORS RATHER THAN REVERT()/REQUIRE() STRINGS TO SAVE GAS",
 			`Custom errors are available from solidity version 0.8.4. Custom errors save ~50 gas each time 
@@ -80,7 +80,7 @@ func GasOpIssues() []Issue {
 			`\b(require|assert)\b`,
 		},
 		{
-			"G011",
+			"G009",
 			GASOP,
 			"Address 0 check can be done in assembly to save gas",
 			`In Solidity, checking if an address is 0 is commonly done using the syntax address(0). 
@@ -89,14 +89,14 @@ func GasOpIssues() []Issue {
 			`address\s*\(\s*0[x0]*\s*\)`,
 		},
 		{
-			"G012",
+			"G010",
 			GASOP,
 			"Using private rather than public for constants, saves gas **Works Well (no false positives)**",
 			"public constants generate a getter function, which increases the bytecode size and gas usage.",
 			`public\s+constant\s+\S+\s*=.*;`,
 		},
 		{
-			"G013",
+			"G011",
 			GASOP,
 			"Functions guaranteed to revert when called by normal users can be marked payable",
 			`Marking the function as payable will lower the gas cost for legitimate callers because the 
@@ -104,7 +104,7 @@ func GasOpIssues() []Issue {
 			`\b(?:onlyOwner|onlyAdmin)\b`,
 		},
 		{
-			"G014",
+			"G012",
 			GASOP,
 			"Setting the constructor to payable",
 			`You can cut out 10 opcodes in the creation-time EVM bytecode if you declare a constructor payable. 
@@ -112,14 +112,14 @@ func GasOpIssues() []Issue {
 			`\bconstructor\b`,
 		},
 		{
-			"G015",
+			"G013",
 			GASOP,
 			"10 ** 18 can be changed to 1e18 and save some gas",
 			"10 ** 18 can be changed to 1e18 to avoid unnecessary arithmetic operation and save gas.",
 			`10\s*\*\*\s*18\b`,
 		},
 		{
-			"G016",
+			"G014",
 			GASOP,
 			"Assigning keccak operations to constant variables results in extra gas costs",
 			`constants expressions are expressions. As such, keccak assigned to a constant variable are re-computed at each use of the variable, 
@@ -129,14 +129,14 @@ func GasOpIssues() []Issue {
 			`\b(keccak|keccak256)\b`,
 		},
 		{
-			"G017 **Works Well (no false positives)**",
+			"G015 **Works Well (no false positives)**",
 			GASOP,
 			"x += y costs more gas than x = x + y for state variables",
 			"....",
 			`[\+\-]=`,
 		},
 		{
-			"G018",
+			"G016",
 			GASOP,
 			"Splitting require() statements that use && saves gas - (saves 8 gas per &&)",
 			`Instead of using the && operator in a single require statement to check multiple conditions, 
@@ -146,7 +146,7 @@ func GasOpIssues() []Issue {
 			`&&(?!\s*=)`,
 		},
 		{
-			"G019",
+			"G017",
 			GASOP,
 			`++i/i++ should be unchecked{++i}/unchecked{i++} when it is not possible for them to overflow`,
 			`The unchecked keyword is new in solidity version 0.8.0, so this only applies to that version or higher,  
@@ -154,7 +154,7 @@ func GasOpIssues() []Issue {
 			`\+\+|--`,
 		},
 		{
-			"G020 **Works Well (no false positives)**",
+			"G018 **Works Well (no false positives)**",
 			GASOP,
 			`Don’t compare boolean expressions to boolean literals`, 
 			"if (<x> == true) => if (<x>), if (<x> == false) => if (!<x>)",
@@ -176,7 +176,7 @@ func LowRiskIssues() []Issue {
 		},
 		// L003 - Unspecific Compiler Version Pragma
 		{
-			"L003",
+			"L002",
 			LOW,
 			"Unspecific Compiler Version Pragma",
 			"Avoid floating pragmas for non-library contracts.",
@@ -184,7 +184,7 @@ func LowRiskIssues() []Issue {
 		},
 		// L005 - Do not use Deprecated Library Functions
 		{
-			"L005",
+			"L003",
 			LOW,
 			"Do not use Deprecated Library Functions",
 			`The usage of deprecated library functions should be discouraged.
@@ -193,7 +193,7 @@ func LowRiskIssues() []Issue {
 		},
 				// L005 - Do not use Deprecated Library Functions
 		{
-			"L006",
+			"L004",
 			LOW,
 			"Use Ownable2StepUpgradeable instead of OwnableUpgradeable contract",
 			`Contracts implementing access control's, e.g. owner, should consider implementing a Two-Step Transfer pattern.
@@ -201,42 +201,42 @@ func LowRiskIssues() []Issue {
 			`\bOwnableUpgradeable\b`, // _setupRole and safeApprove are common deprecated lib functions
 		},
 		{
-			"L007",
+			"L005",
 			LOW,
 			"Use safeTransferOwnership instead of transferOwnership function",
 			"Use a 2 structure transferOwnership which is safer. safeTransferOwnership, use is more secure due to 2-stage ownership transfer.",
 			`\bOwnable\b`, // _setupRole and safeApprove are common deprecated lib functions
 		},
 		{
-			"L008",
+			"L006",
 			LOW,
 			"The nonReentrant modifier should occur before all other modifiers",
 			"This is a best-practice to protect against reentrancy in other modifiers.",
 			`\bnonReentrant\b`, // _setupRole and safeApprove are common deprecated lib functions
 		},
 		{
-			"L009",
+			"L007",
 			LOW,
 			"Use of bytes.concat() instead of abi.encodePacked()",
 			"Since version 0.8.4 for appending bytes, bytes.concat() can be used instead of abi.encodePacked(,)",
 			`\babi.encodePacked\b`, // _setupRole and safeApprove are common deprecated lib functions
 		},
 		{
-			"L010",
+			"L008",
 			LOW,
 			"For modern and more readable code; update import usages",
 			"only import what you need Specific imports with curly braces allow us to apply this rule better.",
 			`\import\b`, // _setupRole and safeApprove are common deprecated lib functions
 		},
 		{
-			"L011",
+			"L009",
 			LOW,
 			"Use of abi.encodePacked() instead of abi.encode()",
 			"...",
 			`\encode\b`, // _setupRole and safeApprove are common deprecated lib functions
 		},
 		{
-			"L012",
+			"L010",
 			LOW,
 			"Avoid using tx.origin",
 			`tx.origin is a global variable in Solidity that returns the address of the account that sent the transaction +

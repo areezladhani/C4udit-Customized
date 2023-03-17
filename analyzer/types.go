@@ -95,7 +95,7 @@ func (r Report) Markdown() string {
 	buf.WriteString(fmt.Sprintf("**Total Findings:** %d, **Total Gas Findings:** %d, **Total Low Findings:** %d\n\n", totalFindings, totalGasFindings, totalLowFindings))
 
 	
-
+	buf.WriteString("---\n\n")
 	
 	buf.WriteString("# Audit Report\n")
 	buf.WriteString("## Notice: This report may contain some false positives, check all findings manually to verify them\n")
@@ -121,6 +121,9 @@ func (r Report) Markdown() string {
 	}
 	buf.WriteString("\n")
 
+	// CHANGE: Add a horizontal line to visually separate the findings section
+	buf.WriteString("---\n\n")
+
 	buf.WriteString("## Findings\n")
 	buf.WriteString("\n")
 	for _, issue := range r.Issues {
@@ -144,7 +147,7 @@ func (r Report) Markdown() string {
 		buf.WriteString("\n")
 
     	// Findings
-    	buf.WriteString("#### **Findings:**\n")
+    	buf.WriteString("#### **Details:**\n")
 		buf.WriteString("| File | Line Number | Line Content | Code Location |\n")
 		buf.WriteString("| ---- | ----------- | ------------ | ------------- |\n")
     	for _, finding := range findings {
