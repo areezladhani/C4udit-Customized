@@ -13,6 +13,7 @@ import (
 // Run an analysis of Solidity contracts in `path`.
 // Argument `issues` encodes the Issues to search for.
 func Run(issues []Issue, paths []string) (*Report, error) {
+	
 	report := &Report{
 		Issues:           issues,
 		FilesAnalyzed:    []string{},
@@ -30,6 +31,7 @@ func Run(issues []Issue, paths []string) (*Report, error) {
 }
 
 func run(report *Report, path string) error {
+	
 	pathInfo, err := os.Stat(path)
 	if err != nil {
 		return err
@@ -73,7 +75,8 @@ func run(report *Report, path string) error {
 }
 // update to "RepoLink/blob/main/"
 // e.g. "https://github.com/PartyDAO/party-contracts-c4/blob/main/" for the repo at https://github.com/PartyDAO/party-contracts-c4
-const baseURL = ""
+const baseURL = "/blob/main/"
+
 
 
 func analyzeFile(issues []Issue, file string) (map[string][]Finding, error) {

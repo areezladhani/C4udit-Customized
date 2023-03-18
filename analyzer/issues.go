@@ -20,7 +20,7 @@ func GasOpIssues() []Issue {
 		{
 			"G002",
 			GASOP,
-			"Cache Array Length Outside of Loop **Works Well (no false positives)**",
+			"Cache Array Length Outside of Loop",
 			`https://github.com/areezladhani/C4udit-Customized/blob/main/Findings-explained/Gas-findings.md#g002---cache-array-length-outside-of-loop`,
 			`for\s*\((.*;)?\s*.*(<|>|<=|>=)\s*[^;]+\.length\s*;`,
 		},
@@ -28,7 +28,7 @@ func GasOpIssues() []Issue {
 		{
 			"G003",
 			GASOP,
-			"Use != 0 instead of > 0 for Unsigned Integer Comparison **Works Well (no false positives)**",
+			"Use != 0 instead of > 0 for Unsigned Integer Comparison",
 			"https://github.com/areezladhani/C4udit-Customized/blob/main/Findings-explained/Gas-findings.md#g003---use--0-instead-of--0-for-unsigned-integer-comparison",
 			`\s*> ?0`,
 		},
@@ -44,7 +44,7 @@ func GasOpIssues() []Issue {
 		{
 			"G005",
 			GASOP,
-			"Long Revert Strings **Works Well (no false positives)**",
+			"Long Revert Strings",
 			"https://github.com/areezladhani/C4udit-Customized/blob/main/Findings-explained/Gas-findings.md#g005---long-revert-strings",
 			`require\(.+\".{33,}\"`, // Anything in a require and between "'s with at least 33 characters
 		},
@@ -64,7 +64,7 @@ func GasOpIssues() []Issue {
 			`\+\+|--`,
 		},
 		{
-			"G008 **Works Well (no false positives)**",
+			"G008",
 			GASOP,
 			"USE CUSTOM ERRORS RATHER THAN REVERT()/REQUIRE() STRINGS TO SAVE GAS",
 			`https://github.com/areezladhani/C4udit-Customized/blob/main/Findings-explained/Gas-findings.md#g008---use-custom-errors-rather-than-revertrequire-strings-to-save-gas`,
@@ -80,7 +80,7 @@ func GasOpIssues() []Issue {
 		{
 			"G010",
 			GASOP,
-			"Using private rather than public for constants, saves gas **Works Well (no false positives)**",
+			"Using private rather than public for constants, saves gas",
 			"https://github.com/areezladhani/C4udit-Customized/blob/main/Findings-explained/Gas-findings.md#g010---using-private-rather-than-public-for-constants-saves-gas",
 			`public\s+constant\s+\S+\s*=.*;`,
 		},
@@ -134,11 +134,32 @@ func GasOpIssues() []Issue {
 			`\+\+|--`,
 		},
 		{
-			"G018 **Works Well (no false positives)**",
+			"G018",
 			GASOP,
 			`Don’t compare boolean expressions to boolean literals`, 
 			"https://github.com/areezladhani/C4udit-Customized/blob/main/Findings-explained/Gas-findings.md#g018---dont-compare-boolean-expressions-to-boolean-literals",
 			`== (true|false)\b`,
+		},
+		{
+			"G019",
+			GASOP,
+			"Avoid using uints/ints smaller than 32 bytes (256 bits)",
+			"https://github.com/areezladhani/C4udit-Customized/blob/main/Findings-explained/Gas-findings.md#g020---avoid-using-uintsints-smaller-than-32-bytes-256-bits",
+			`\b(uint|int)(8|16|24|32|40|48|56|64)?(\[\])?\b(?<!uint256)(?<!uint\b)`,
+		},
+		{
+			"G020",
+			GASOP,
+			"Use caution with initializers to avoid front-running attacks",
+			"https://github.com/areezladhani/C4audit-Customized/blob/main/Findings-explained/Gas-findings.md#g021---use-caution-with-initializers-to-avoid-front-running-attacks",
+			`\binitialize\b`,
+		},
+		{
+			"G021",
+			GASOP,
+			"Event is missing indexed fields",
+			"https://github.com/areezladhani/C4audit-Customized/blob/main/Findings-explained/Gas-findings.md#g022---event-is-missing-indexed-fields",
+			`\bevent\b`,
 		},
 	}
 }
